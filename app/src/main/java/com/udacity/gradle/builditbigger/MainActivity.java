@@ -5,7 +5,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.udacity.gradle.builditbigger.joker.Joker;
 
 public class MainActivity extends ActionBarActivity {
     @Override
@@ -33,5 +36,11 @@ public class MainActivity extends ActionBarActivity {
 
     public void tellJoke(View view) {
         Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
+
+        MainActivityFragment fragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        TextView textView = (TextView) fragment.getView().findViewById(R.id.joke_view);
+        Joker joker = new Joker();
+
+        if (textView != null) { textView.setText(joker.getJoke()); }
     }
 }
