@@ -1,14 +1,15 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.udacity.gradle.builditbigger.joker.Joker;
+import com.fract.nano.williamyoung.jokedisplay.JokeDisplay;
 
 public class MainActivity extends ActionBarActivity {
     @Override
@@ -30,17 +31,14 @@ public class MainActivity extends ActionBarActivity {
 //        if (id == R.id.action_settings) { return true; }
 //
 //        return super.onOptionsItemSelected(item);
-
         return (id == R.id.action_settings) || super.onOptionsItemSelected(item);
     }
 
     public void tellJoke(View view) {
-        Toast.makeText(this, "derp", Toast.LENGTH_SHORT).show();
-
-        MainActivityFragment fragment = (MainActivityFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        TextView textView = (TextView) fragment.getView().findViewById(R.id.joke_view);
         Joker joker = new Joker();
 
-        if (textView != null) { textView.setText(joker.getJoke()); }
+        Intent intent = new Intent(this, JokeDisplay.class);
+        intent.putExtra("joke", joker.getJoke());
+        startActivity(intent);
     }
 }
