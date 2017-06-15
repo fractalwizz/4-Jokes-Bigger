@@ -3,7 +3,7 @@ package com.udacity.gradle.builditbigger;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Pair;
 
 import com.fract.nano.williamyoung.jokedisplay.JokeDisplay;
@@ -21,12 +21,13 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
     private MyApi apiService = null;
     private Context mContext;
     private Exception mError = null;
-    private EndpointsAsyncTaskListener mListener = null;
 
     protected EndpointsAsyncTask(Context context) { this.mContext = context; }
 
+    // TODO - Verify Code Functionality
+    @SafeVarargs
     @Override
-    protected String doInBackground(Pair<Context, String>... params) {
+    protected final String doInBackground(Pair<Context, String>... params) {
         String output = null;
 
         if (apiService == null) {
@@ -48,30 +49,14 @@ public class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, S
         return output;
     }
 
-    public EndpointsAsyncTask setListener(EndpointsAsyncTaskListener listener) {
-        this.mListener = listener;
-        return this;
-    }
-
     @Override
     protected void onPostExecute(String result) {
         Intent intent = new Intent(mContext, JokeDisplay.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra("joke", result);
 
-        if (this.mListener != null) { this.mListener.onComplete(result, mError); }
-        mContext.startActivity(intent);
-    }
-
-    @Override
-    protected void onCancelled() {
-        if (this.mListener != null) {
-            mError = new InterruptedException("AsyncTask Cancelled");
-            this.mListener.onComplete(null, mError);
+        if (mContext != null) {
+            LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
         }
-    }
-
-    public interface EndpointsAsyncTaskListener {
-        void onComplete(String result, Exception e);
     }
 }

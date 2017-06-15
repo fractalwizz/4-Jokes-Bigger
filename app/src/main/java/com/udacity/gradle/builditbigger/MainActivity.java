@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+// TODO - AppCompatActivity
 public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class MainActivity extends ActionBarActivity {
         return (id == R.id.action_settings) || super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("unchecked")
     public void tellJoke(View view) {
         new EndpointsAsyncTask(getApplicationContext()).execute(new Pair<Context, String>(this, "joke"));
     }

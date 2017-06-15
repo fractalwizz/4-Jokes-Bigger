@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 public class JokeDisplay extends AppCompatActivity {
+    public static final String JOKE_TAG = "joke_intent_tag";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
